@@ -645,17 +645,28 @@
 
   // EXCHANGE RATE (Frankfurter — free, no API key, updates daily)
   async function loadFX(){
-    try{
-      const res = await fetch('https://api.frankfurter.app/latest?amount=1&from=MXN&to=AUD');
-      const data = await res.json();
-      const rate = data.rates.AUD;
-      const inverse = (1/rate).toFixed(2);
-      document.getElementById('fxMain').textContent = `1 MXN = ${rate.toFixed(3)} AUD`;
-      document.getElementById('fxSub').textContent = `1 AUD ≈ $${inverse} MXN · act. ${data.date}`;
-    }catch(e){
-      document.getElementById('fxMain').textContent = 'No disponible';
-      document.getElementById('fxSub').textContent = 'Intenta recargar la página';
+    const sub = document.getElementById('fxSub');
+    const main = document.getElementById('fxMain');
+    // Try current frankfurter.dev endpoint first (base/symbols), fall back to legacy .app host (from/to)
+    const attempts = [
+      { url: 'https://api.frankfurter.dev/v1/latest?base=MXN&symbols=AUD', rateKey: 'AUD' },
+      { url: 'https://api.frankfurter.app/latest?from=MXN&to=AUD', rateKey: 'AUD' }
+    ];
+    for(const attempt of attempts){
+      try{
+        const res = await fetch(attempt.url);
+        if(!res.ok) continue;
+        const data = await res.json();
+        const rate = data.rates[attempt.rateKey];
+        if(!rate) continue;
+        const inverse = (1/rate).toFixed(2);
+        main.textContent = `1 MXN = ${rate.toFixed(3)} AUD`;
+        sub.textContent = `1 AUD ≈ $${inverse} MXN · act. ${data.date}`;
+        return;
+      }catch(e){ /* try next */ }
     }
+    main.textContent = 'No disponible';
+    sub.textContent = 'Intenta recargar la página';
   }
   loadFX();
 
