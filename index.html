@@ -162,6 +162,22 @@
   .faq-a p{margin:0 0 18px; padding-left:34px; color:var(--muted); font-size:14.5px; max-width:640px;}
 
   footer{text-align:center; padding:40px 24px 60px; color:var(--muted); font-family:'JetBrains Mono',monospace; font-size:12px; border-top:1px solid var(--line);}
+
+  /* LIVE HEADER BAR */
+  .live-bar{max-width:1040px; margin:0 auto; padding:22px 24px 0;}
+  .live-bar .live-label{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--coral); text-transform:uppercase; letter-spacing:.08em; margin-bottom:10px; display:flex; align-items:center; gap:8px;}
+  .live-dot{width:7px; height:7px; border-radius:50%; background:#2ecc71; display:inline-block; animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;} 50%{opacity:.35;}}
+  .live-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:12px; margin-bottom:8px;}
+  .live-card{background:var(--card); border:1px solid var(--line); border-radius:8px; padding:14px 16px;}
+  .live-card .lc-lbl{font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px;}
+  .live-card .lc-val{font-family:'Space Grotesk',sans-serif; font-size:22px; font-weight:700; color:var(--ink); line-height:1.1;}
+  .live-card .lc-sub{font-size:12px; color:var(--muted); margin-top:3px;}
+  .live-card .lc-icon{font-size:20px; margin-right:4px;}
+  .fc-strip{display:flex; gap:6px; margin-top:8px;}
+  .fc-day{flex:1; text-align:center; font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted);}
+  .fc-day .fc-emoji{font-size:15px; display:block;}
+  .fc-day .fc-temp{color:var(--ink); font-weight:600;}
 </style>
 </head>
 <body>
@@ -175,6 +191,42 @@
     <a href="#vuelos"><b>04</b> /VUELOS</a>
     <a href="#checklist"><b>05</b> /CHECKLIST</a>
     <a href="#pendientes"><b>06</b> /PENDIENTES</a>
+  </div>
+</div>
+
+<!-- LIVE HEADER BAR -->
+<div class="live-bar">
+  <div class="live-label"><span class="live-dot"></span>En vivo</div>
+  <div class="live-grid">
+    <div class="live-card">
+      <div class="lc-lbl">CDMX</div>
+      <div class="lc-val" id="clockMex">--:--:--</div>
+      <div class="lc-sub" id="dateMex">—</div>
+    </div>
+    <div class="live-card">
+      <div class="lc-lbl">Australia (Sídney/Cairns/Melbourne)</div>
+      <div class="lc-val" id="clockAus">--:--:--</div>
+      <div class="lc-sub" id="dateAus">—</div>
+    </div>
+    <div class="live-card">
+      <div class="lc-lbl">Tipo de cambio</div>
+      <div class="lc-val" id="fxMain">Cargando…</div>
+      <div class="lc-sub" id="fxSub">—</div>
+    </div>
+  </div>
+  <div class="live-grid">
+    <div class="live-card" id="weatherSydney">
+      <div class="lc-lbl">Sídney</div>
+      <div class="lc-val">Cargando…</div>
+    </div>
+    <div class="live-card" id="weatherCairns">
+      <div class="lc-lbl">Cairns</div>
+      <div class="lc-val">Cargando…</div>
+    </div>
+    <div class="live-card" id="weatherMelbourne">
+      <div class="lc-lbl">Melbourne</div>
+      <div class="lc-val">Cargando…</div>
+    </div>
   </div>
 </div>
 
@@ -573,6 +625,80 @@
   });
 
   load();
+</script>
+
+<script>
+  // CLOCKS
+  function updateClocks(){
+    const now = new Date();
+    const mexTime = now.toLocaleTimeString('es-MX', {timeZone:'America/Mexico_City', hour:'2-digit', minute:'2-digit', second:'2-digit'});
+    const mexDate = now.toLocaleDateString('es-MX', {timeZone:'America/Mexico_City', weekday:'short', day:'numeric', month:'short'});
+    const ausTime = now.toLocaleTimeString('es-MX', {timeZone:'Australia/Sydney', hour:'2-digit', minute:'2-digit', second:'2-digit'});
+    const ausDate = now.toLocaleDateString('es-MX', {timeZone:'Australia/Sydney', weekday:'short', day:'numeric', month:'short'});
+    document.getElementById('clockMex').textContent = mexTime;
+    document.getElementById('dateMex').textContent = mexDate;
+    document.getElementById('clockAus').textContent = ausTime;
+    document.getElementById('dateAus').textContent = ausDate;
+  }
+  updateClocks();
+  setInterval(updateClocks, 1000);
+
+  // EXCHANGE RATE (Frankfurter — free, no API key, updates daily)
+  async function loadFX(){
+    try{
+      const res = await fetch('https://api.frankfurter.app/latest?amount=1&from=MXN&to=AUD');
+      const data = await res.json();
+      const rate = data.rates.AUD;
+      const inverse = (1/rate).toFixed(2);
+      document.getElementById('fxMain').textContent = `1 MXN = ${rate.toFixed(3)} AUD`;
+      document.getElementById('fxSub').textContent = `1 AUD ≈ $${inverse} MXN · act. ${data.date}`;
+    }catch(e){
+      document.getElementById('fxMain').textContent = 'No disponible';
+      document.getElementById('fxSub').textContent = 'Intenta recargar la página';
+    }
+  }
+  loadFX();
+
+  // WEATHER (Open-Meteo — free, no API key)
+  const weatherCodes = {
+    0:['☀️','Despejado'], 1:['🌤️','Mayormente despejado'], 2:['⛅','Parcialmente nublado'], 3:['☁️','Nublado'],
+    45:['🌫️','Neblina'], 48:['🌫️','Neblina'],
+    51:['🌦️','Llovizna'], 53:['🌦️','Llovizna'], 55:['🌧️','Llovizna fuerte'],
+    61:['🌧️','Lluvia ligera'], 63:['🌧️','Lluvia'], 65:['🌧️','Lluvia fuerte'],
+    71:['🌨️','Nieve ligera'], 73:['🌨️','Nieve'], 75:['❄️','Nieve fuerte'],
+    80:['🌦️','Chubascos'], 81:['🌧️','Chubascos'], 82:['⛈️','Chubascos fuertes'],
+    95:['⛈️','Tormenta'], 96:['⛈️','Tormenta con granizo'], 99:['⛈️','Tormenta fuerte']
+  };
+  function wCode(code){ return weatherCodes[code] || ['🌡️','—']; }
+
+  async function loadWeather(elId, lat, lon){
+    const el = document.getElementById(elId);
+    const label = el.querySelector('.lc-lbl').outerHTML;
+    try{
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=auto&forecast_days=5`;
+      const res = await fetch(url);
+      const data = await res.json();
+      const cur = data.current;
+      const [emoji, desc] = wCode(cur.weather_code);
+      let html = `${label}
+        <div class="lc-val"><span class="lc-icon">${emoji}</span>${Math.round(cur.temperature_2m)}°C</div>
+        <div class="lc-sub">${desc} · máx ${Math.round(data.daily.temperature_2m_max[0])}° / mín ${Math.round(data.daily.temperature_2m_min[0])}°</div>
+        <div class="fc-strip">`;
+      for(let i=1;i<data.daily.time.length;i++){
+        const d = new Date(data.daily.time[i]);
+        const dayLabel = d.toLocaleDateString('es-MX', {weekday:'short'});
+        const [dEmoji] = wCode(data.daily.weather_code[i]);
+        html += `<div class="fc-day">${dayLabel}<span class="fc-emoji">${dEmoji}</span><span class="fc-temp">${Math.round(data.daily.temperature_2m_max[i])}°</span></div>`;
+      }
+      html += `</div>`;
+      el.innerHTML = html;
+    }catch(e){
+      el.innerHTML = `${label}<div class="lc-val">No disponible</div>`;
+    }
+  }
+  loadWeather('weatherSydney', -33.8688, 151.2093);
+  loadWeather('weatherCairns', -16.9186, 145.7781);
+  loadWeather('weatherMelbourne', -37.8136, 144.9631);
 </script>
 
 </body>
