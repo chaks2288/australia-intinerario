@@ -49,8 +49,8 @@
   .hero{max-width:1040px; margin:0 auto; padding:76px 24px 40px;}
   .eyebrow-row{display:flex; align-items:center; gap:10px; margin-bottom:22px;}
   .pill{
-    font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:.08em;
-    background:var(--sun); color:var(--ink); padding:6px 12px; border-radius:20px; font-weight:600;
+    font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:.06em;
+    background:rgba(242,184,75,0.35); color:var(--ink); padding:5px 11px; border-radius:20px; font-weight:500;
   }
   .hero h1{
     font-size:clamp(40px,7vw,84px); font-weight:700; line-height:0.98; margin:0 0 22px; letter-spacing:-0.01em;
@@ -166,35 +166,35 @@
 
   /* LIVE HEADER BAR */
   .live-bar{max-width:1040px; margin:0 auto; padding:22px 24px 0;}
-  .live-bar .live-label{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--coral); text-transform:uppercase; letter-spacing:.08em; margin-bottom:10px; display:flex; align-items:center; gap:8px;}
-  .live-dot{width:7px; height:7px; border-radius:50%; background:#2ecc71; display:inline-block; animation:pulse 2s infinite;}
+  .live-bar .live-label{font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; margin-bottom:10px; display:flex; align-items:center; gap:7px; font-weight:500;}
+  .live-dot{width:6px; height:6px; border-radius:50%; background:#2ecc71; display:inline-block; animation:pulse 2s infinite;}
   @keyframes pulse{0%,100%{opacity:1;} 50%{opacity:.35;}}
   .live-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:12px; margin-bottom:8px;}
   .live-card{background:var(--card); border:1px solid var(--line); border-radius:8px; padding:14px 16px;}
-  .live-card .lc-lbl{font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px;}
-  .live-card .lc-val{font-family:'Space Grotesk',sans-serif; font-size:22px; font-weight:700; color:var(--ink); line-height:1.1;}
-  .live-card .lc-sub{font-size:12px; color:var(--muted); margin-top:3px;}
-  .live-card .lc-icon{font-size:20px; margin-right:4px;}
+  .live-card .lc-lbl{font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; margin-bottom:6px; font-weight:500;}
+  .live-card .lc-val{font-family:'Space Grotesk',sans-serif; font-size:18px; font-weight:600; color:var(--ink); line-height:1.15;}
+  .live-card .lc-sub{font-size:11.5px; color:var(--muted); margin-top:3px;}
+  .live-card .lc-icon{font-size:16px; margin-right:4px;}
   .fc-strip{display:flex; gap:6px; margin-top:8px;}
   .fc-day{flex:1; text-align:center; font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted);}
   .fc-day .fc-emoji{font-size:15px; display:block;}
   .fc-day .fc-temp{color:var(--ink); font-weight:600;}
   /* MOBILE FIXES */
   @media (max-width: 640px){
-    .hero{padding:52px 18px 28px;}
-    .hero h1{margin-bottom:16px;}
-    .hero p.sub{font-size:15px; margin-bottom:24px;}
-    .stat{flex:1 1 45%; padding:14px 16px;}
-    .stat .num{font-size:20px;}
-    .stat .lab{font-size:10px;}
+    .hero{padding:48px 18px 24px;}
+    .hero h1{font-size:30px; letter-spacing:0; margin-bottom:14px;}
+    .hero p.sub{font-size:14.5px; margin-bottom:22px;}
+    .stat{flex:1 1 45%; padding:12px 14px;}
+    .stat .num{font-size:18px;}
+    .stat .lab{font-size:9.5px;}
 
-    .live-bar{padding:16px 16px 0;}
+    .live-bar{padding:14px 16px 0;}
     .live-grid{grid-template-columns:1fr 1fr; gap:8px;}
-    .live-card{padding:12px 12px;}
-    .live-card .lc-val{font-size:17px;}
-    .live-card .lc-lbl{font-size:9.5px;}
+    .live-card{padding:11px 12px;}
+    .live-card .lc-val{font-size:15px;}
+    .live-card .lc-lbl{font-size:9px;}
     .fc-strip{flex-wrap:wrap; gap:6px 4px;}
-    .fc-day{flex:1 1 30%; font-size:10px;}
+    .fc-day{flex:1 1 30%; font-size:9.5px;}
 
     .navlinks a{padding:12px 10px; font-size:10.5px;}
     .navbar .brand{font-size:13px;}
@@ -481,17 +481,25 @@
     <div class="day-card">
       <div class="date-row"><span class="date-tag">Mié 2 Sep</span></div>
       <h3>Vuelo Sydney → Cairns</h3>
-      <p>Vuelo por la mañana. Check-in del liveaboard antes de las 6pm. Tarde libre en el Esplanade.</p>
+      <p>Vuelo por la mañana. Check-in del liveaboard en la tienda de Pro Dive Cairns antes de las 5:30pm. Tarde libre en el Esplanade.</p>
     </div>
     <div class="day-card">
-      <div class="date-row"><span class="date-tag">Jue 3 – Sáb 5 Sep</span> <span class="status confirmed">Reservado</span></div>
+      <div class="date-row"><span class="date-tag">Jue 3 – Sáb 5 Sep</span> <span class="status confirmed">Reservado · AA399605</span></div>
       <h3>Liveaboard Pro Dive Cairns</h3>
-      <p>3 días / 2 noches en Ribbon Reefs y Cod Hole — hasta 11 inmersiones. Ambos ya certificados.</p>
+      <p>3-Day Great Barrier Outer Reef (salida jueves). Check-in 2 sep antes de 5:30pm, embarcan 3 sep, check-out 5 sep 3:30pm. Nivel: Open Water, mínimo 4 inmersiones registradas. Total pagado: MXN 26,682.53.</p>
     </div>
     <div class="day-card">
       <div class="date-row"><span class="date-tag">Dom 6 Sep</span></div>
       <h3>Ventana de no-vuelo + vuelo a Melbourne</h3>
       <p>18-24h mínimo sin volar después de días consecutivos de buceo. Mañana de descanso, vuelo al mediodía/tarde.</p>
+    </div>
+    <div class="day-card" style="background:var(--bg-alt); border:none;">
+      <h3>Check-in y logística del liveaboard</h3>
+      <p><b>Dónde:</b> Pro Dive Cairns Retail Shop, Corner Shields & Grafton Street, Cairns City. <a href="https://www.google.com/maps/search/?api=1&query=Pro+Dive+Cairns+Store+Shields+St+Grafton+St+Cairns" target="_blank">Ver en Google Maps →</a></p>
+      <p style="margin-top:8px;"><b>Mañana de salida:</b> transfer gratis desde hoteles del centro de Cairns, recogen 6:00-6:20am, el barco sale de Cairns Marina 7:00am. Si no confirman lugar de pickup, hay que llegar por su cuenta a la tienda a las 6:15am.</p>
+      <p style="margin-top:8px;"><b>Equipo:</b> renta de equipo de buceo gratis, se organiza en la tienda hasta las 5:30pm el día antes. Llevar 2 toallas cada uno (no incluidas).</p>
+      <p style="margin-top:8px;"><b>Costos a pagar a bordo:</b> Tax and Levy AUD 100/persona/viaje + cargo de combustible AUD 25/persona/viaje — llevar ~AUD 125 c/u en tarjeta o efectivo.</p>
+      <p style="margin-top:8px;"><b>Seguro de buceo obligatorio</b> — el operador recomienda DiveAssure si no tienen uno propio.</p>
     </div>
     <div class="day-card" style="background:var(--bg-alt); border:none;">
       <h3>Zona y operador</h3>
@@ -592,9 +600,9 @@
       <p style="margin-top:8px;"><a href="https://www.google.com/maps/search/?api=1&query=Bondi+Beach+NSW+2026" target="_blank">Ver en Google Maps →</a></p>
     </div>
     <div class="day-card">
-      <div class="date-row"><span class="date-tag">2–6 Sep · Cairns</span> <span class="status decision">Por reservar</span></div>
+      <div class="date-row"><span class="date-tag">2–6 Sep · Cairns</span> <span class="status decision">Confirmado, falta nombre exacto</span></div>
       <h3>Zona: El Esplanade</h3>
-      <p>Caminable al muelle de donde sale el liveaboard. Opciones sugeridas: YHA Cairns Central, Global Backpackers — falta confirmar y reservar.</p>
+      <p>Ya reservado en Booking.com para la noche antes y la noche después del liveaboard, pero el link compartido no me deja ver el nombre/dirección exacta — pásame el nombre tal cual aparece en tu confirmación y lo actualizo aquí con pin de Maps.</p>
       <p style="margin-top:8px;"><a href="https://www.google.com/maps/search/?api=1&query=The+Esplanade+Cairns+QLD" target="_blank">Ver en Google Maps →</a></p>
     </div>
     <div class="day-card">
@@ -694,6 +702,10 @@
       <div class="faq-q"><span><span class="idx">05</span>Great Ocean Road</span><span class="faq-toggle">+</span></div>
       <div class="faq-a"><p>Confirmar reserva con Go West Tours para el 8 sep.</p></div>
     </div>
+    <div class="faq-item">
+      <div class="faq-q"><span><span class="idx">06</span>Papeleo del liveaboard</span><span class="faq-toggle">+</span></div>
+      <div class="faq-a"><p>LiveAboard.com pide, idealmente 2 meses antes: email, teléfono, hospedaje pre/post viaje, copia de certificación de buceo (frente y reverso) y el waiver firmado (página 3, parte 1) — responder directo al correo de la reserva.</p></div>
+    </div>
   </div>
 </section>
 
@@ -720,7 +732,9 @@
     {id:'d16', text:'Reservar tour Phillip Island Penguin Parade (11 sep)', done:false},
     {id:'d5', text:'Hostal Sydney: Nomads Sydney (28-30 ago)', done:true},
     {id:'d6', text:'Bondi: apartamento 1 min de la playa (30 ago-2 sep)', done:true},
-    {id:'d7', text:'Reservar hostal Cairns Esplanade', done:false},
+    {id:'d7', text:'Cairns: confirmar nombre exacto del hospedaje (2-6 sep)', done:false},
+    {id:'d17', text:'Seguro de buceo (obligatorio para el liveaboard)', done:false},
+    {id:'d18', text:'Enviar a LiveAboard.com: email, teléfono, hospedaje, certificaciones y waiver firmado', done:false},
     {id:'d8', text:'Reservar hostal Melbourne (Fitzroy/St Kilda)', done:false},
     {id:'d9', text:'Reservar tour Great Ocean Road (Go West Tours)', done:false},
     {id:'d10', text:'Certificados de buceo (llevar tarjeta física)', done:false},
